@@ -113,6 +113,7 @@ switch ($vdiState.vdiMode) {
     }
     "5200" {
         Write-Host "VDI Optimization         : SlimCore Optimized ($($vdiState.vdiMode))"
+        # The following values are only available in SlimCore mode
         Write-Host "SlimCore Version         : $($vdiVersion.remoteSlimcoreVersion)"
         Write-Host "VDIBridge Version        : $($vdiVersion.bridgeVersion)"
         Write-Host "MS Teams Plugin Version  : $($vdiVersion.pluginVersion)"
@@ -120,21 +121,21 @@ switch ($vdiState.vdiMode) {
         Write-Host "Client Platform          : $($vdiVersion.clientPlatform)"
         Write-Host "RD Client                : $($vdiVersion.rdClientProductName)"
         Write-Host "VDI Client Version       : $($vdiVersion.rdClientVersion)"
+
+        Write-Host "`n--- Available peripheral devices ---" -ForegroundColor Cyan
+        Write-Host "Speakers     : $(Get-DeviceLabels $devices.speaker.available)"
+        Write-Host "Cameras      : $(Get-DeviceLabels $devices.camera.available)"
+        Write-Host "Microphones  : $(Get-DeviceLabels $devices.microphone.available)"
+
+        Write-Host "`n--- Selected peripheral devices ---" -ForegroundColor Cyan
+        Write-Host "Speaker      : $($devices.speaker.selected)"
+        Write-Host "Camera       : $($devices.camera.selected)"
+        Write-Host "Microphone   : $($devices.microphone.selected)"
+
+        Write-Host "`nSecondary Ringtone : $($devices.secondaryRinger)"
     }
     default {
         Write-Host "VDI Optimization         : Unknown Mode ($($vdiState.vdiMode))"
     }
 }
 Write-Host "VM OS Version            : $(Get-WindowsVersionName $vdiVersion.vmVersion)"
-
-Write-Host "`n--- Available peripheral devices ---" -ForegroundColor Cyan
-Write-Host "Speakers     : $(Get-DeviceLabels $devices.speaker.available)"
-Write-Host "Cameras      : $(Get-DeviceLabels $devices.camera.available)"
-Write-Host "Microphones  : $(Get-DeviceLabels $devices.microphone.available)"
-
-Write-Host "`n--- Selected peripheral devices ---" -ForegroundColor Cyan
-Write-Host "Speaker      : $($devices.speaker.selected)"
-Write-Host "Camera       : $($devices.camera.selected)"
-Write-Host "Microphone   : $($devices.microphone.selected)"
-
-Write-Host "`nSecondary Ringtone : $($devices.secondaryRinger)"
