@@ -101,26 +101,27 @@ function Get-DeviceLabels {
 # Output
 Write-Host "`n=== VDI Monitoring Informationen ===" -ForegroundColor Cyan
 Write-Host "Timestamp                : $timestampReadable"
-Write-Host "Connected State          : $($vdiState.connectedStack)"
+Write-Host "VM OS Version            : $(Get-WindowsVersionName $vdiVersion.vmVersion)"
+Write-Host "Connected Stack          : $($vdiState.connectedStack)"
 
 switch ($vdiState.vdiMode) {
     # 1122 seems WebRTC; 5100 seems AVD Media Optimized; 5200 seems Slimcore
     "1122" {
-        Write-Host "VDI Optimization         : WebRTC Optimized ($($vdiState.vdiMode))"
+        Write-Host "`nVDI Optimization         : WebRTC Optimized"
     }
     "5100" {
-        Write-Host "VDI Optimization         : AVD Media Optimized ($($vdiState.vdiMode))"
+        Write-Host "`nVDI Optimization         : AVD Media Optimized"
     }
     "5200" {
-        Write-Host "VDI Optimization         : SlimCore Optimized ($($vdiState.vdiMode))"
+        Write-Host "`nVDI Optimization         : SlimCore Optimized"
         # The following values are only available in SlimCore mode
-        Write-Host "SlimCore Version         : $($vdiVersion.remoteSlimcoreVersion)"
+        Write-Host "`nSlimCore Version         : $($vdiVersion.remoteSlimcoreVersion)"
         Write-Host "VDIBridge Version        : $($vdiVersion.bridgeVersion)"
         Write-Host "MS Teams Plugin Version  : $($vdiVersion.pluginVersion)"
-        Write-Host "Teams Version            : $($vdiVersion.teamsVersion)"
-        Write-Host "Client Platform          : $($vdiVersion.clientPlatform)"
-        Write-Host "RD Client                : $($vdiVersion.rdClientProductName)"
-        Write-Host "VDI Client Version       : $($vdiVersion.rdClientVersion)"
+        Write-Host "`nTeams Version            : $($vdiVersion.teamsVersion)"
+        #Write-Host "`nClient Platform          : $($vdiVersion.clientPlatform)"
+        Write-Host "`nRD Client                : $($vdiVersion.rdClientProductName)"
+        Write-Host "RD Client Version        : $($vdiVersion.rdClientVersion)"
 
         Write-Host "`n--- Available peripheral devices ---" -ForegroundColor Cyan
         Write-Host "Speakers     : $(Get-DeviceLabels $devices.speaker.available)"
@@ -138,4 +139,3 @@ switch ($vdiState.vdiMode) {
         Write-Host "VDI Optimization         : Unknown Mode ($($vdiState.vdiMode))"
     }
 }
-Write-Host "VM OS Version            : $(Get-WindowsVersionName $vdiVersion.vmVersion)"
