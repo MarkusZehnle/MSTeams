@@ -159,6 +159,6 @@ switch ($vdiState.vdiMode) {
         Write-Host "`nSecondary Ringtone : $($devices.secondaryRinger)"
     }
     default {
-        Write-Host "VDI Optimization         : Unknown Mode ($($vdiState.vdiMode))"
+        Write-Host "VDI Optimization         : Not optimized"
     }
 }
