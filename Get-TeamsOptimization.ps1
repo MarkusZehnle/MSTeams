@@ -105,23 +105,46 @@ Write-Host "VM OS Version            : $(Get-WindowsVersionName $vdiVersion.vmVe
 Write-Host "Connected Stack          : $($vdiState.connectedStack)"
 
 switch ($vdiState.vdiMode) {
-    # 1122 seems WebRTC; 5100 seems AVD Media Optimized; 5200 seems Slimcore
+    # 1122 seems WebRTC; 1222 seems Citrix SlimCore; 5100 seems AVD Media Optimized; 5200 seems AVD SlimCore
     "1122" {
-        Write-Host "`nVDI Optimization         : WebRTC Optimized"
+        Write-Host "`nVDI Optimization         : Citrix HDX Optimized (WebRTC)"
     }
-    "5100" {
-        Write-Host "`nVDI Optimization         : AVD Media Optimized"
-    }
-    "5200" {
-        Write-Host "`nVDI Optimization         : SlimCore Optimized"
+    "1222" {
+        Write-Host "`nVDI Optimization         : Citrix SlimCore Optimized"
         # The following values are only available in SlimCore mode
         Write-Host "`nSlimCore Version         : $($vdiVersion.remoteSlimcoreVersion)"
         Write-Host "VDIBridge Version        : $($vdiVersion.bridgeVersion)"
         Write-Host "MS Teams Plugin Version  : $($vdiVersion.pluginVersion)"
         Write-Host "`nTeams Version            : $($vdiVersion.teamsVersion)"
         #Write-Host "`nClient Platform          : $($vdiVersion.clientPlatform)"
-        Write-Host "`nRD Client                : $($vdiVersion.rdClientProductName)"
-        Write-Host "RD Client Version        : $($vdiVersion.rdClientVersion)"
+        Write-Host "`nRemote Client            : $($vdiVersion.rdClientProductName)"
+        Write-Host "Remote Client Version    : $($vdiVersion.rdClientVersion)"
+
+        Write-Host "`n--- Available peripheral devices ---" -ForegroundColor Cyan
+        Write-Host "Speakers     : $(Get-DeviceLabels $devices.speaker.available)"
+        Write-Host "Cameras      : $(Get-DeviceLabels $devices.camera.available)"
+        Write-Host "Microphones  : $(Get-DeviceLabels $devices.microphone.available)"
+
+        Write-Host "`n--- Selected peripheral devices ---" -ForegroundColor Cyan
+        Write-Host "Speaker      : $($devices.speaker.selected)"
+        Write-Host "Camera       : $($devices.camera.selected)"
+        Write-Host "Microphone   : $($devices.microphone.selected)"
+
+        Write-Host "`nSecondary Ringtone : $($devices.secondaryRinger)"
+    }
+    "5100" {
+        Write-Host "`nVDI Optimization         : AVD Media Optimized"
+    }
+    "5200" {
+        Write-Host "`nVDI Optimization         : AVD SlimCore Optimized"
+        # The following values are only available in SlimCore mode
+        Write-Host "`nSlimCore Version         : $($vdiVersion.remoteSlimcoreVersion)"
+        Write-Host "VDIBridge Version        : $($vdiVersion.bridgeVersion)"
+        Write-Host "MS Teams Plugin Version  : $($vdiVersion.pluginVersion)"
+        Write-Host "`nTeams Version            : $($vdiVersion.teamsVersion)"
+        #Write-Host "`nClient Platform          : $($vdiVersion.clientPlatform)"
+        Write-Host "`nRemote Client            : $($vdiVersion.rdClientProductName)"
+        Write-Host "Remote Client Version    : $($vdiVersion.rdClientVersion)"
 
         Write-Host "`n--- Available peripheral devices ---" -ForegroundColor Cyan
         Write-Host "Speakers     : $(Get-DeviceLabels $devices.speaker.available)"
